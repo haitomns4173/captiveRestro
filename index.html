@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, shrink-to-fit=no">
+    <title>Todays Special</title>
+    <link rel="stylesheet" href="assets/bootstrap/css/bootstrap.min.css">
+    <link rel="stylesheet" href="assets/css/Footer-Basic.css">
+    <link rel="stylesheet" href="assets/css/Highlight-Blue.css">
+    <link rel="stylesheet" href="assets/css/Navigation-Clean.css">
+    <link rel="stylesheet" href="assets/css/styles.css">
+</head>
+
+<body>
+    <nav class="navbar navbar-light navbar-expand-lg bg-dark navigation-clean">
+        <div class="container"><a class="navbar-brand fs-1 link-light" style = "color:white">Todays Special in</a><img src="assets/img/download.jpg" width="70px" height="70px" alt="Logo"></div>
+    </nav>
+
+    <!--Div class for displaying data form the javascript-->
+    <div class = "dish">
+    
+    </div>
+
+    <!--Fetching Data form JSON File-->
+    <script>
+        fetch('dish.json')
+            .then(function (response) {
+                return response.json();
+            })
+            .then(function (data) {
+                appendData(data);
+            })
+            .catch(function (err) {
+                console.log('error: ' + err);
+            });
+        function appendData(data) {
+            let output = '';
+            var mainContainer = document.getElementById("myData");
+            for (var i = 0; i < data.length; i++) {
+                output += `
+                <section class="highlight-blue" id="main-blue" style="height: 92.875px;padding: 10px 10px;background: #472d30;">
+                    <h1 class="text-start">${data[i].id}. ${data[i].dishName}</h1>
+                        <div class="container">
+                            <div class="intro" style="height: 45px;">
+                                 <p class="text-start">${data[i].type} ${data[i].price}</p>
+                            </div>
+                        </div>
+                    </section>
+                `;
+            }
+            document.querySelector(".dish").innerHTML = output;
+        }
+    </script>
+
+    <script src="assets/bootstrap/js/bootstrap.min.js"></script>
+</body>
+
+</html>
