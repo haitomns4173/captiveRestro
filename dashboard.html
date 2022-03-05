@@ -1,0 +1,75 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, shrink-to-fit=no">
+    <title>Dashboard</title>
+    <link rel="stylesheet" href="assets/bootstrap/css/bootstrap.min.css">
+    <link rel="stylesheet" href="assets/css/Contact-Form-Clean.css">
+    <link rel="stylesheet" href="assets/css/Footer-Basic.css">
+    <link rel="stylesheet" href="assets/css/Highlight-Blue.css">
+    <link rel="stylesheet" href="assets/css/Navigation-Clean.css">
+    <link rel="stylesheet" href="assets/css/styles.css">
+</head>
+
+<body>
+    <nav class="navbar navbar-light navbar-expand-lg bg-dark navigation-clean">
+        <div class="container"><a class="navbar-brand fs-1 link-light" style = "color:white">Dashboard</a></div>
+    </nav>
+
+
+    <table class="table table-striped table-dark">
+        <tr>
+            <th>Dish Name</th>
+            <th>Price</th>
+            <th>Action</th>
+        </tr>
+        <tbody id="dishTable">
+
+        </tbody>
+    </table>
+
+    <script>
+        fetch('dish.json')
+            .then(function (response) {
+                return response.json();
+            })
+            .then(function (data) {
+                buildTable(data);
+            })
+            .catch(function (err) {
+                console.log('error: ' + err);
+            });
+        function buildTable(data) {
+            let output = '';
+            var mainContainer = document.getElementById("dishTable");
+            for (var i = 0; i < data.length; i++) {
+                output += `
+                <tr>
+                    <td>${data[i].dishName}</td>
+                    <td>${data[i].price}</td>
+                    <td>
+                        <button class="btn btn-primary" onclick="editDish(${data[i].id})">Edit</button>
+                        <button class="btn btn-danger" onclick="deleteDish(${data[i].id})">Delete</button>
+                    </td>
+                `;
+            }
+            document.getElementById("dishTable").innerHTML = output;
+        }
+    </script>
+
+
+    <section class="contact-clean">
+        <form method="post">
+            <h2 class="text-center">Edit Dish</h2>
+            <div class="mb-3"><input class="form-control" type="text" name="name" placeholder="Dish Name"></div><input class="form-control" type="text" name="name" placeholder="Quantity">
+            <div class="mb-3"></div><input class="form-control" type="text" name="name" placeholder="Type(Veg/Non-Veg)">
+            <div class="mb-3"></div><input class="form-control" type="text" name="name" placeholder="Price">
+            <div class="mb-3"><button class="btn btn-primary" type="submit">send </button></div>
+        </form>
+    </section>
+    <script src="assets/bootstrap/js/bootstrap.min.js"></script>
+</body>
+
+</html>
