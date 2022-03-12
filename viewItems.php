@@ -2,10 +2,10 @@
     echo <<<EOT
     <table class="table table-striped table-dark">
         <tr>
-            <th> Dish Name </th>
-            <th> Price </th>
+            <th> Dish Name </th.
             <th> Quantity </th>
             <th> Type </th>
+            <th> Price </th>
             <th>Action</th>
         </tr>
         <tbody>
