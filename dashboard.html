@@ -32,6 +32,9 @@
 
     <!--Fetching Data form JSON File and inserting it to table-->
     <script>
+
+        var tempID = 0;
+
         fetch('dish.json')
             .then(function (response) {
                 return response.json();
@@ -58,24 +61,6 @@
             }
             document.getElementById("dishTable").innerHTML = output;
         }
-        function deleteDish(id){
-            fetch('dish.json')
-                .then(function (response) {
-                    return response.json();
-                })
-                .then(function (data) {
-                    //deleting data from json
-                    for(var i = 0; i < data.length; i++){
-                        if(data[i].id == id){
-                            data.splice(i,1);
-                        }
-                    }
-                    buildTable(data);
-                })
-                .catch(function (err) {
-                    console.log('error: ' + err);
-                });
-        }
         function writeToForm(id){
             fetch('dish.json')
             .then(function (response) {
@@ -84,6 +69,7 @@
             .then(function (data) {
                 for (var i = 0; i < data.length; i++) {
                     if(data[i].id == id){
+                        tempID = data[i].id;
                         document.getElementById("dishName").value = data[i].dishName;
                         document.getElementById("quantity").value = data[i].quantity;
                         document.getElementById("type").value = data[i].type;
@@ -91,6 +77,57 @@
 
                     }
                 }
+            })
+            .catch(function (err) {
+                console.log('error: ' + err);
+            });
+        }
+        
+        //function to delete data
+        function deleteDish(id){
+            fetch('dish.json')
+            .then(function (response) {
+                return response.json();
+            })
+            .then(function (data) {
+                for (var i = 0; i < data.length; i++) {
+                    if(data[i].id == id){
+                        data.splice(i,1);
+                    }
+                }
+                var json = JSON.stringify(data);
+                var xhr = new XMLHttpRequest();
+                xhr.open('PUT', 'dish.json', true);
+                xhr.setRequestHeader('Content-type', 'application/json; charset=utf-8');
+                xhr.send(json);
+                location.reload();
+            })
+            .catch(function (err) {
+                console.log('error: ' + err);
+            });
+        }
+
+        //fucntion to update dish
+        function updateDish(){
+            fetch('dish.json')
+            .then(function (response) {
+                return response.json();
+            })
+            .then(function (data) {
+                for (var i = 0; i < data.length; i++) {
+                    if(data[i].id == tempID){
+                        data[i].dishName = document.getElementById("dishName").value;
+                        data[i].quantity = document.getElementById("quantity").value;
+                        data[i].type = document.getElementById("type").value;
+                        data[i].price = document.getElementById("price").value;
+                    }
+                }
+                var json = JSON.stringify(data);
+                var xhr = new XMLHttpRequest();
+                xhr.open('PUT', 'dish.json', true);
+                xhr.setRequestHeader('Content-type', 'application/json; charset=utf-8');
+                xhr.send(json);
+                location.reload();
             })
             .catch(function (err) {
                 console.log('error: ' + err);
@@ -115,7 +152,7 @@
             <input class="form-control" type="text" name="price" id = "price" placeholder="Price">
         </div>
         <div class="mb-3">
-            <button class="btn btn-primary" type="submit">send </button>
+            <button class="btn btn-primary" type="button" onclick="updateDish()">Update</button>
         </div>
     </form>
 </section>
