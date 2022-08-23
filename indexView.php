@@ -1,9 +1,8 @@
 <?php
 
 include_once('Crud.php');
+include_once('ordersV.php');
 $crud = new Crud();
-
-$number = 1;
 
 echo <<<EOT
 <div class = "dish">
@@ -13,10 +12,10 @@ foreach (reset($crud->data) as $idx => $item) :
     $tData = "";
     $tActions = "";
     echo <<<EOT
-    <section class="highlight-blue" id="main-blue" style="height: 92.875px;padding: 10px 10px;background: #472d30;">
+    <section class="highlight-blue" id="main-blue" style="height: 150px;padding: 10px 10px;background: #472d30;">
     EOT;
         
-    $tData .= "<h1 class=\"text-start\">". $number++. ". " . $item['dishName'] . "</h1>";
+    $tData .= "<h1 class=\"text-start\">". $idx. ". " . $item['dishName'] . "</h1>";
     
     echo <<<EOT
         $tData
@@ -28,12 +27,12 @@ foreach (reset($crud->data) as $idx => $item) :
 
     echo <<<EOT
         $tActions
+        <a href="?action=order&id=$idx"> <button class="btn btn-primary" style="float: right;" class="btn btn-primary">Orders</button></a>
         </div>
         </div>
         </section>
     EOT;
-
-
+    
 endforeach;
 echo <<<EOT
 </div>

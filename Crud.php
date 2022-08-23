@@ -8,6 +8,8 @@ class Crud
     public $data;
     public $listName;
     public $attributesList;
+    public $ordersFile = 'ordersList.json';
+    public $orderCompletePage = 'orderCompleted.html';
 
     public function __construct($filePath = 'dish.json')
     {
@@ -70,4 +72,39 @@ class Crud
             throw new Exception("Nothing to delete", 1);
         }
     }
+
+    //add orders form orders id to ordersList.json
+    public function actionAddOrder($id=null)
+    {
+        if ($id!==null && is_numeric($id) && $this->data[$this->listName][$id]) {
+            $listName = $this->listName;
+            $data = $this->data;
+            $itemData = $data[$listName][$id];
+
+            //remove type and price form itemData
+            unset($itemData["type"]);
+            unset($itemData["price"]);
+
+            //add current data and time to itemData
+            //set timezone to nepal
+            date_default_timezone_set('Asia/Kathmandu');
+            $itemData["date"] = date("Y-m-d h:i:s a");
+
+            $orders = $this->getOrders();
+            array_push($orders, $itemData);
+            file_put_contents($this->ordersFile, json_encode($orders));
+            header("Location: ".$this->orderCompletePage);
+        } else {
+            throw new Exception("Nothing to add", 1);
+        }
+    }
+    
+    //get orders from ordersList.json
+    public function getOrders()
+    {
+        $orders = file_get_contents($this->ordersFile);
+        $orders = json_decode($orders, true);
+        return $orders;
+    }
 }
+?>

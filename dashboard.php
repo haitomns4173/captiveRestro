@@ -16,7 +16,7 @@
 <body>
 
   <nav class="navbar navbar-light navbar-expand-lg bg-dark navigation-clean">
-    <div class="container"><a class="navbar-brand fs-1 link-light" style="color:white" href="#">Dashboard</a></div>
+    <div class="container"><a class="navbar-brand fs-1 link-light" style="color:white">Dashboard</a></div>
   </nav>
 
 
